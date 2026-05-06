@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — BDA Empresa DB{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<!-- Stat cards -->
+<div class="row g-3 mb-4">
+  {% set cards = [
+    ('employees',   'Empleados',      'people',        '#58a6ff', stats.employees),
+    ('departments', 'Departamentos',  'building',       '#3fb950', stats.departments),
+    ('projects',    'Proyectos',      'kanban',         '#f97316', stats.projects),
+    ('works_on',    'Asignaciones',   'diagram-3',      '#a371f7', stats.works_on),
+    ('dependents',  'Dependientes',   'person-hearts',  '#f85149', stats.dependents),
+  ] %}
+  {% for ep, label, icon, color, count in cards %}
+  <div class="col-sm-6 col-xl">
+    <a href="{{ url_for(ep) }}" style="text-decoration:none;">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:{{ color }}22; color:{{ color }};">
+          <i class="bi bi-{{ icon }}"></i>
+        </div>
+        <div class="stat-num">{{ count }}</div>
+        <div class="stat-label">{{ label }}</div>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- Salary stats -->
+<div class="row g-3 mb-4">
+  {% if stats.avg_salary is defined %}
+  <div class="col-md-4">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(63,185,80,.15);color:#3fb950;"><i class="bi bi-graph-up"></i></div>
+      <div class="stat-num" style="font-size:22px;">${{ '{:,.0f}'.format(stats.avg_salary) }}</div>
+      <div class="stat-label">Salario Promedio</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(88,166,255,.15);color:#58a6ff;"><i class="bi bi-arrow-up-circle"></i></div>
+      <div class="stat-num" style="font-size:22px;">${{ '{:,.0f}'.format(stats.max_salary) }}</div>
+      <div class="stat-label">Salario Máximo</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(248,81,73,.15);color:#f85149;"><i class="bi bi-arrow-down-circle"></i></div>
+      <div class="stat-num" style="font-size:22px;">${{ '{:,.0f}'.format(stats.min_salary) }}</div>
+      <div class="stat-label">Salario Mínimo</div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Quick access -->
+<div class="row g-3">
+  <div class="col-md-6">
+    <div class="card-db">
+      <div class="card-header">
+        <i class="bi bi-lightning-charge" style="color:var(--accent);"></i>
+        ACCESO RÁPIDO
+      </div>
+      <div class="card-body">
+        <div class="d-flex flex-wrap gap-2">
+          <a href="{{ url_for('employee_new') }}" class="btn-accent"><i class="bi bi-plus"></i> Nuevo Empleado</a>
+          <a href="{{ url_for('department_new') }}" class="btn-ghost"><i class="bi bi-plus"></i> Departamento</a>
+          <a href="{{ url_for('project_new') }}" class="btn-ghost"><i class="bi bi-plus"></i> Proyecto</a>
+          <a href="{{ url_for('works_on_new') }}" class="btn-ghost"><i class="bi bi-plus"></i> Asignación</a>
+          <a href="{{ url_for('dependent_new') }}" class="btn-ghost"><i class="bi bi-plus"></i> Dependiente</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card-db">
+      <div class="card-header">
+        <i class="bi bi-braces" style="color:var(--blue);"></i>
+        API JSON
+      </div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">Endpoints disponibles:</p>
+        <div class="d-flex flex-column gap-2">
+          <a href="/api/employees" target="_blank" class="btn-ghost" style="font-size:12px;">
+            <i class="bi bi-box-arrow-up-right"></i> GET /api/employees
+          </a>
+          <a href="/api/projects" target="_blank" class="btn-ghost" style="font-size:12px;">
+            <i class="bi bi-box-arrow-up-right"></i> GET /api/projects
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

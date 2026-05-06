@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Dependientes — BDA{% endblock %}
+{% block page_title %}Dependientes{% endblock %}
+{% block topbar_actions %}
+<a href="{{ url_for('dependent_new') }}" class="btn-accent"><i class="bi bi-plus-lg"></i> Nuevo Dependiente</a>
+{% endblock %}
+{% block content %}
+<div class="card-db">
+  <div class="card-header">
+    <i class="bi bi-person-hearts" style="color:var(--red);"></i>
+    DEPENDENT
+    <span class="badge-count">{{ dependents|length }}</span>
+  </div>
+  <div style="overflow-x:auto;">
+    <table class="table-db">
+      <thead>
+        <tr><th>Empleado</th><th>ESSN</th><th>Nombre Dependiente</th><th>Sexo</th><th>F. Nacimiento</th><th>Parentesco</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+        {% for d in dependents %}
+        <tr>
+          <td style="font-weight:500;">{{ d.emp_name }}</td>
+          <td class="ssn">{{ d.Essn }}</td>
+          <td>{{ d.Dependent_name }}</td>
+          <td><span class="badge-custom badge-sex-{{ d.Sex }}">{{ d.Sex }}</span></td>
+          <td class="ssn">{{ d.Bdate }}</td>
+          <td><span class="badge-custom badge-rel">{{ d.Relationship }}</span></td>
+          <td>
+            <div class="d-flex gap-1">
+              <a href="{{ url_for('dependent_edit', id=d._id) }}" class="btn-edit-sm"><i class="bi bi-pencil"></i> Editar</a>
+              <a href="{{ url_for('dependent_delete', id=d._id) }}" class="btn-danger-sm" onclick="return confirm('¿Eliminar?')"><i class="bi bi-trash"></i></a>
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" style="text-align:center;color:var(--muted);padding:40px;font-family:var(--mono);font-size:12px;">Sin dependientes</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

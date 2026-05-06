@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Asignaciones — BDA{% endblock %}
+{% block page_title %}Asignaciones (WORKS_ON){% endblock %}
+{% block topbar_actions %}
+<a href="{{ url_for('works_on_new') }}" class="btn-accent"><i class="bi bi-plus-lg"></i> Nueva Asignación</a>
+{% endblock %}
+{% block content %}
+<div class="card-db">
+  <div class="card-header">
+    <i class="bi bi-diagram-3" style="color:#a371f7;"></i>
+    WORKS_ON
+    <span class="badge-count">{{ records|length }}</span>
+  </div>
+  <div style="overflow-x:auto;">
+    <table class="table-db">
+      <thead>
+        <tr><th>Empleado</th><th>ESSN</th><th>Proyecto</th><th>Pno</th><th>Horas</th><th>Acciones</th></tr>
+      </thead>
+      <tbody>
+        {% for r in records %}
+        <tr>
+          <td style="font-weight:500;">{{ r.emp_name }}</td>
+          <td class="ssn">{{ r.Essn }}</td>
+          <td>{{ r.proj_name }}</td>
+          <td><span class="badge-custom" style="background:rgba(249,115,22,.12);color:var(--accent);border:1px solid rgba(249,115,22,.3);">{{ r.Pno }}</span></td>
+          <td>
+            {% if r.Hours is not none and r.Hours is not none %}
+              <span class="salary">{{ r.Hours }}h</span>
+            {% else %}
+              <span style="color:var(--muted);font-family:var(--mono);font-size:11px;">NULL</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="d-flex gap-1">
+              <a href="{{ url_for('works_on_edit', id=r._id) }}" class="btn-edit-sm"><i class="bi bi-pencil"></i> Editar</a>
+              <a href="{{ url_for('works_on_delete', id=r._id) }}" class="btn-danger-sm" onclick="return confirm('¿Eliminar?')"><i class="bi bi-trash"></i></a>
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" style="text-align:center;color:var(--muted);padding:40px;font-family:var(--mono);font-size:12px;">Sin asignaciones</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

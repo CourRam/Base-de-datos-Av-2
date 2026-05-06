@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Departamentos — BDA{% endblock %}
+{% block page_title %}Departamentos{% endblock %}
+
+{% block topbar_actions %}
+<a href="{{ url_for('department_new') }}" class="btn-accent">
+  <i class="bi bi-plus-lg"></i> Nuevo Departamento
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="card-db">
+  <div class="card-header">
+    <i class="bi bi-building" style="color:var(--green);"></i>
+    DEPARTMENT + DEPT_LOCATIONS
+    <span class="badge-count">{{ departments|length }}</span>
+  </div>
+  <div style="overflow-x:auto;">
+    <table class="table-db">
+      <thead>
+        <tr>
+          <th>#</th><th>Nombre</th><th>Gerente</th>
+          <th>Fecha Inicio Gerente</th><th>Ubicaciones</th>
+          <th>Empleados</th><th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for d in departments %}
+        <tr>
+          <td><span class="badge-custom badge-dept">{{ d.Dnumber }}</span></td>
+          <td style="font-weight:500;">{{ d.Dname }}</td>
+          <td>
+            <div>{{ d.manager_name }}</div>
+            <div class="ssn">{{ d.Mgr_ssn }}</div>
+          </td>
+          <td class="ssn">{{ d.Mgr_start_date }}</td>
+          <td>
+            {% for loc in d.locations %}
+              <span class="badge-custom" style="background:rgba(167,113,247,.12);color:#a371f7;border:1px solid rgba(167,113,247,.3);margin-right:3px;">{{ loc }}</span>
+            {% else %}
+              <span style="color:var(--muted);font-size:12px;">—</span>
+            {% endfor %}
+          </td>
+          <td><span class="badge-custom badge-dept">{{ d.emp_count }}</span></td>
+          <td>
+            <div class="d-flex gap-1">
+              <a href="{{ url_for('department_edit', id=d._id) }}" class="btn-edit-sm"><i class="bi bi-pencil"></i> Editar</a>
+              <a href="{{ url_for('department_delete', id=d._id) }}"
+                 class="btn-danger-sm"
+                 onclick="return confirm('¿Eliminar departamento y sus ubicaciones?')"><i class="bi bi-trash"></i></a>
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" style="text-align:center;color:var(--muted);padding:40px;font-family:var(--mono);font-size:12px;">Sin departamentos</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

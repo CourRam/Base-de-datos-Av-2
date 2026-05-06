@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}{{ action }} Proyecto — BDA{% endblock %}
+{% block page_title %}{{ action }} Proyecto{% endblock %}
+{% block topbar_actions %}
+<a href="{{ url_for('projects') }}" class="btn-ghost"><i class="bi bi-arrow-left"></i> Volver</a>
+{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+<div class="col-lg-6">
+<div class="card-db">
+  <div class="card-header"><i class="bi bi-kanban" style="color:var(--accent);"></i> PROJECT — {{ action|upper }}</div>
+  <div class="card-body">
+    <form method="post">
+      <div class="row g-3">
+        <div class="col-md-8">
+          <label class="form-label-db">Nombre del Proyecto *</label>
+          <input name="Pname" class="form-control-db" required value="{{ proj.Pname if proj else '' }}" placeholder="ProductX"/>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label-db">Número *{% if proj %}<span style="color:var(--muted);"> (fijo)</span>{% endif %}</label>
+          <input name="Pnumber" type="number" class="form-control-db" required
+                 value="{{ proj.Pnumber if proj else '' }}"
+                 {% if proj %}readonly style="opacity:.6;"{% endif %} placeholder="1"/>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label-db">Ubicación *</label>
+          <input name="Plocation" class="form-control-db" required value="{{ proj.Plocation if proj else '' }}" placeholder="Bellaire"/>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label-db">Departamento *</label>
+          <select name="Dnum" class="form-select-db" required>
+            {% for d in departments %}
+              <option value="{{ d.Dnumber }}" {% if proj and proj.Dnum==d.Dnumber %}selected{% endif %}>
+                {{ d.Dnumber }} — {{ d.Dname }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-12 mt-3 d-flex gap-2">
+          <button type="submit" class="btn-accent"><i class="bi bi-check-lg"></i> {{ action }} Proyecto</button>
+          <a href="{{ url_for('projects') }}" class="btn-ghost">Cancelar</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+</div>
+{% endblock %}

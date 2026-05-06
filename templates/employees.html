@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Empleados — BDA{% endblock %}
+{% block page_title %}Empleados{% endblock %}
+
+{% block topbar_actions %}
+<a href="{{ url_for('employee_new') }}" class="btn-accent">
+  <i class="bi bi-plus-lg"></i> Nuevo Empleado
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="card-db">
+  <div class="card-header" style="gap:12px;">
+    <i class="bi bi-people" style="color:var(--blue);"></i>
+    EMPLOYEE
+    <span class="badge-count">{{ employees|length }}</span>
+    <form method="get" class="ms-auto d-flex gap-2" style="margin:0;">
+      <div class="search-wrap">
+        <i class="bi bi-search"></i>
+        <input name="q" value="{{ search }}" placeholder="Buscar nombre, SSN…"
+               class="form-control-db" style="width:220px; font-size:12px;"/>
+      </div>
+      <select name="dno" class="form-select-db" style="width:160px;font-size:12px;">
+        <option value="">Todos los depts.</option>
+        {% for d in departments %}
+          <option value="{{ d.Dnumber }}" {% if dept_filter==d.Dnumber|string %}selected{% endif %}>
+            {{ d.Dname }}
+          </option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="btn-ghost"><i class="bi bi-funnel"></i></button>
+      {% if search or dept_filter %}
+        <a href="{{ url_for('employees') }}" class="btn-ghost"><i class="bi bi-x"></i></a>
+      {% endif %}
+    </form>
+  </div>
+  <div style="overflow-x:auto;">
+    <table class="table-db">
+      <thead>
+        <tr>
+          <th>Nombre</th><th>SSN</th><th>F. Nacimiento</th>
+          <th>Dirección</th><th>Sexo</th><th>Salario</th>
+          <th>Supervisor SSN</th><th>Depto.</th><th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in employees %}
+        <tr>
+          <td style="font-weight:500;">{{ e.Fname }} {% if e.Minit %}{{ e.Minit }}.{% endif %} {{ e.Lname }}</td>
+          <td class="ssn">{{ e.Ssn }}</td>
+          <td class="ssn">{{ e.Bdate }}</td>
+          <td style="font-size:12px;color:var(--muted);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="{{ e.Address }}">{{ e.Address }}</td>
+          <td><span class="badge-custom badge-sex-{{ e.Sex }}">{{ e.Sex }}</span></td>
+          <td class="salary">${{ '{:,.0f}'.format(e.Salary) }}</td>
+          <td class="ssn">{{ e.Super_ssn or '—' }}</td>
+          <td><span class="badge-custom badge-dept">Dept {{ e.Dno }}</span></td>
+          <td>
+            <div class="d-flex gap-1">
+              <a href="{{ url_for('employee_edit', id=e._id) }}" class="btn-edit-sm"><i class="bi bi-pencil"></i> Editar</a>
+              <a href="{{ url_for('employee_delete', id=e._id) }}"
+                 class="btn-danger-sm"
+                 onclick="return confirm('¿Eliminar empleado?')"><i class="bi bi-trash"></i></a>
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="9" style="text-align:center;color:var(--muted);padding:40px;font-family:var(--mono);font-size:12px;">
+          No se encontraron empleados
+        </td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

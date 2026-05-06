@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Proyectos — BDA{% endblock %}
+{% block page_title %}Proyectos{% endblock %}
+
+{% block topbar_actions %}
+<a href="{{ url_for('project_new') }}" class="btn-accent">
+  <i class="bi bi-plus-lg"></i> Nuevo Proyecto
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="card-db">
+  <div class="card-header">
+    <i class="bi bi-kanban" style="color:var(--accent);"></i>
+    PROJECT
+    <span class="badge-count">{{ projects|length }}</span>
+  </div>
+  <div style="overflow-x:auto;">
+    <table class="table-db">
+      <thead>
+        <tr>
+          <th>#</th><th>Nombre</th><th>Ubicación</th>
+          <th>Departamento</th><th>Trabajadores</th><th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in projects %}
+        <tr>
+          <td><span class="badge-custom" style="background:rgba(249,115,22,.12);color:var(--accent);border:1px solid rgba(249,115,22,.3);">{{ p.Pnumber }}</span></td>
+          <td style="font-weight:500;">{{ p.Pname }}</td>
+          <td style="color:var(--muted);font-size:13px;">
+            <i class="bi bi-geo-alt" style="font-size:11px;"></i> {{ p.Plocation }}
+          </td>
+          <td><span class="badge-custom badge-dept">{{ p.dept_name }}</span></td>
+          <td>
+            <span class="badge-custom badge-dept">{{ p.worker_count }} empleados</span>
+          </td>
+          <td>
+            <div class="d-flex gap-1">
+              <a href="{{ url_for('project_edit', id=p._id) }}" class="btn-edit-sm"><i class="bi bi-pencil"></i> Editar</a>
+              <a href="{{ url_for('project_delete', id=p._id) }}"
+                 class="btn-danger-sm"
+                 onclick="return confirm('¿Eliminar proyecto?')"><i class="bi bi-trash"></i></a>
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" style="text-align:center;color:var(--muted);padding:40px;font-family:var(--mono);font-size:12px;">Sin proyectos</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

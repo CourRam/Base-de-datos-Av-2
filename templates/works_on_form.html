@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}{{ action }} Asignación — BDA{% endblock %}
+{% block page_title %}{{ action }} Asignación{% endblock %}
+{% block topbar_actions %}
+<a href="{{ url_for('works_on') }}" class="btn-ghost"><i class="bi bi-arrow-left"></i> Volver</a>
+{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+<div class="col-lg-6">
+<div class="card-db">
+  <div class="card-header"><i class="bi bi-diagram-3" style="color:#a371f7;"></i> WORKS_ON — {{ action|upper }}</div>
+  <div class="card-body">
+    <form method="post">
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label-db">Empleado (ESSN) *</label>
+          <select name="Essn" class="form-select-db" required {% if rec %}disabled{% endif %}>
+            {% for e in employees %}
+              <option value="{{ e.Ssn }}" {% if rec and rec.Essn==e.Ssn %}selected{% endif %}>
+                {{ e.Ssn }} — {{ e.Fname }} {{ e.Lname }}
+              </option>
+            {% endfor %}
+          </select>
+          {% if rec %}<input type="hidden" name="Essn" value="{{ rec.Essn }}"/>{% endif %}
+        </div>
+        <div class="col-12">
+          <label class="form-label-db">Proyecto (Pno) *</label>
+          <select name="Pno" class="form-select-db" required {% if rec %}disabled{% endif %}>
+            {% for p in projects %}
+              <option value="{{ p.Pnumber }}" {% if rec and rec.Pno==p.Pnumber %}selected{% endif %}>
+                {{ p.Pnumber }} — {{ p.Pname }}
+              </option>
+            {% endfor %}
+          </select>
+          {% if rec %}<input type="hidden" name="Pno" value="{{ rec.Pno }}"/>{% endif %}
+        </div>
+        <div class="col-12">
+          <label class="form-label-db">Horas (dejar vacío para NULL)</label>
+          <input name="Hours" type="number" step="0.5" min="0" class="form-control-db"
+                 value="{{ rec.Hours if rec and rec.Hours is not none else '' }}"
+                 placeholder="40.0"/>
+        </div>
+        <div class="col-12 mt-3 d-flex gap-2">
+          <button type="submit" class="btn-accent"><i class="bi bi-check-lg"></i> {{ action }} Asignación</button>
+          <a href="{{ url_for('works_on') }}" class="btn-ghost">Cancelar</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+</div>
+{% endblock %}

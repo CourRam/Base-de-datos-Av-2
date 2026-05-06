@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}{{ action }} Empleado — BDA{% endblock %}
+{% block page_title %}{{ action }} Empleado{% endblock %}
+
+{% block topbar_actions %}
+<a href="{{ url_for('employees') }}" class="btn-ghost"><i class="bi bi-arrow-left"></i> Volver</a>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+<div class="col-lg-8">
+<div class="card-db">
+  <div class="card-header">
+    <i class="bi bi-person-badge" style="color:var(--accent);"></i>
+    EMPLOYEE — {{ action|upper }}
+  </div>
+  <div class="card-body">
+    <form method="post">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label-db">Fname *</label>
+          <input name="Fname" class="form-control-db" required value="{{ emp.Fname if emp else '' }}" placeholder="John"/>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label-db">Minit</label>
+          <input name="Minit" class="form-control-db" maxlength="1" value="{{ emp.Minit if emp else '' }}" placeholder="B"/>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label-db">Lname *</label>
+          <input name="Lname" class="form-control-db" required value="{{ emp.Lname if emp else '' }}" placeholder="Smith"/>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label-db">SSN * {% if emp %}<span style="color:var(--muted);">(no editable)</span>{% endif %}</label>
+          <input name="Ssn" class="form-control-db" required
+                 value="{{ emp.Ssn if emp else '' }}"
+                 {% if emp %}readonly style="opacity:.6;"{% endif %}
+                 placeholder="123456789" maxlength="9"/>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label-db">Fecha de Nacimiento *</label>
+          <input name="Bdate" type="date" class="form-control-db" required
+                 value="{{ emp.Bdate if emp else '' }}"/>
+        </div>
+        <div class="col-12">
+          <label class="form-label-db">Dirección *</label>
+          <input name="Address" class="form-control-db" required
+                 value="{{ emp.Address if emp else '' }}"
+                 placeholder="731 Fondren, Houston, TX"/>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label-db">Sexo *</label>
+          <select name="Sex" class="form-select-db" required>
+            <option value="M" {% if emp and emp.Sex=='M' %}selected{% endif %}>M — Masculino</option>
+            <option value="F" {% if emp and emp.Sex=='F' %}selected{% endif %}>F — Femenino</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label-db">Salario *</label>
+          <input name="Salary" type="number" min="0" step="500" class="form-control-db" required
+                 value="{{ emp.Salary if emp else '' }}" placeholder="30000"/>
+        </div>
+        <div class="col-md-5">
+          <label class="form-label-db">SSN Supervisor</label>
+          <input name="Super_ssn" class="form-control-db"
+                 value="{{ emp.Super_ssn if emp and emp.Super_ssn else '' }}"
+                 placeholder="333445555 (dejar vacío si ninguno)"/>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label-db">Departamento *</label>
+          <select name="Dno" class="form-select-db" required>
+            {% for d in departments %}
+              <option value="{{ d.Dnumber }}" {% if emp and emp.Dno==d.Dnumber %}selected{% endif %}>
+                {{ d.Dnumber }} — {{ d.Dname }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-12 mt-3 d-flex gap-2">
+          <button type="submit" class="btn-accent">
+            <i class="bi bi-check-lg"></i> {{ action }} Empleado
+          </button>
+          <a href="{{ url_for('employees') }}" class="btn-ghost">Cancelar</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+</div>
+{% endblock %}

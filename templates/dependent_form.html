@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}{{ action }} Dependiente — BDA{% endblock %}
+{% block page_title %}{{ action }} Dependiente{% endblock %}
+{% block topbar_actions %}
+<a href="{{ url_for('dependents') }}" class="btn-ghost"><i class="bi bi-arrow-left"></i> Volver</a>
+{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+<div class="col-lg-6">
+<div class="card-db">
+  <div class="card-header"><i class="bi bi-person-hearts" style="color:var(--red);"></i> DEPENDENT — {{ action|upper }}</div>
+  <div class="card-body">
+    <form method="post">
+      <div class="row g-3">
+        <div class="col-12">
+          <label class="form-label-db">Empleado (ESSN) *</label>
+          <select name="Essn" class="form-select-db" required {% if dep %}disabled{% endif %}>
+            {% for e in employees %}
+              <option value="{{ e.Ssn }}" {% if dep and dep.Essn==e.Ssn %}selected{% endif %}>
+                {{ e.Ssn }} — {{ e.Fname }} {{ e.Lname }}
+              </option>
+            {% endfor %}
+          </select>
+          {% if dep %}<input type="hidden" name="Essn" value="{{ dep.Essn }}"/>{% endif %}
+        </div>
+        <div class="col-md-8">
+          <label class="form-label-db">Nombre del Dependiente *</label>
+          <input name="Dependent_name" class="form-control-db" required
+                 value="{{ dep.Dependent_name if dep else '' }}" placeholder="Alice"/>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label-db">Sexo *</label>
+          <select name="Sex" class="form-select-db" required>
+            <option value="M" {% if dep and dep.Sex=='M' %}selected{% endif %}>M</option>
+            <option value="F" {% if dep and dep.Sex=='F' %}selected{% endif %}>F</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label-db">Fecha de Nacimiento *</label>
+          <input name="Bdate" type="date" class="form-control-db" required
+                 value="{{ dep.Bdate if dep else '' }}"/>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label-db">Parentesco *</label>
+          <select name="Relationship" class="form-select-db" required>
+            {% for rel in ['Spouse','Son','Daughter'] %}
+              <option value="{{ rel }}" {% if dep and dep.Relationship==rel %}selected{% endif %}>{{ rel }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-12 mt-3 d-flex gap-2">
+          <button type="submit" class="btn-accent"><i class="bi bi-check-lg"></i> {{ action }} Dependiente</button>
+          <a href="{{ url_for('dependents') }}" class="btn-ghost">Cancelar</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+</div>
+{% endblock %}

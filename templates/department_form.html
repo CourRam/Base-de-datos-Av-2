@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}{{ action }} Departamento — BDA{% endblock %}
+{% block page_title %}{{ action }} Departamento{% endblock %}
+
+{% block topbar_actions %}
+<a href="{{ url_for('departments') }}" class="btn-ghost"><i class="bi bi-arrow-left"></i> Volver</a>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+<div class="col-lg-7">
+<div class="card-db">
+  <div class="card-header">
+    <i class="bi bi-building" style="color:var(--green);"></i>
+    DEPARTMENT — {{ action|upper }}
+  </div>
+  <div class="card-body">
+    <form method="post">
+      <div class="row g-3">
+        <div class="col-md-8">
+          <label class="form-label-db">Nombre del Departamento *</label>
+          <input name="Dname" class="form-control-db" required
+                 value="{{ dept.Dname if dept else '' }}" placeholder="Research"/>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label-db">Número *
+            {% if dept %}<span style="color:var(--muted);">(no editable)</span>{% endif %}
+          </label>
+          <input name="Dnumber" type="number" class="form-control-db" required
+                 value="{{ dept.Dnumber if dept else '' }}"
+                 {% if dept %}readonly style="opacity:.6;"{% endif %}
+                 placeholder="5"/>
+        </div>
+        <div class="col-md-8">
+          <label class="form-label-db">SSN del Gerente *</label>
+          <select name="Mgr_ssn" class="form-select-db" required>
+            {% for e in employees %}
+              <option value="{{ e.Ssn }}"
+                {% if dept and dept.Mgr_ssn==e.Ssn %}selected{% endif %}>
+                {{ e.Ssn }} — {{ e.Fname }} {{ e.Lname }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label-db">Fecha Inicio Gerente *</label>
+          <input name="Mgr_start_date" type="date" class="form-control-db" required
+                 value="{{ dept.Mgr_start_date if dept else '' }}"/>
+        </div>
+        <div class="col-12">
+          <label class="form-label-db">Ubicaciones (separar con comas)</label>
+          <input name="locations" class="form-control-db"
+                 value="{{ dept.current_locations if dept else '' }}"
+                 placeholder="Houston, Bellaire, Sugarland"/>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;font-family:var(--mono);">
+            Ej: Houston, Stafford — se guardan en DEPT_LOCATIONS
+          </div>
+        </div>
+        <div class="col-12 mt-3 d-flex gap-2">
+          <button type="submit" class="btn-accent">
+            <i class="bi bi-check-lg"></i> {{ action }} Departamento
+          </button>
+          <a href="{{ url_for('departments') }}" class="btn-ghost">Cancelar</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+</div>
+{% endblock %}
