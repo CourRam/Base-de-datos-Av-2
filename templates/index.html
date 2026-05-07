@@ -54,43 +54,6 @@
   {% endif %}
 </div>
 
-<!-- Quick access -->
-<div class="row g-3">
-  <div class="col-md-6">
-    <div class="card-db">
-      <div class="card-header">
-        <i class="bi bi-lightning-charge" style="color:var(--accent);"></i>
-        ACCESO RÁPIDO
-      </div>
-      <div class="card-body">
-        <div class="d-flex flex-wrap gap-2">
-          <a href="{{ url_for('employee_new') }}" class="btn-accent"><i class="bi bi-plus"></i> Nuevo Empleado</a>
-          <a href="{{ url_for('department_new') }}" class="btn-ghost"><i class="bi bi-plus"></i> Departamento</a>
-          <a href="{{ url_for('project_new') }}" class="btn-ghost"><i class="bi bi-plus"></i> Proyecto</a>
-          <a href="{{ url_for('works_on_new') }}" class="btn-ghost"><i class="bi bi-plus"></i> Asignación</a>
-          <a href="{{ url_for('dependent_new') }}" class="btn-ghost"><i class="bi bi-plus"></i> Dependiente</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6">
-    <div class="card-db">
-      <div class="card-header">
-        <i class="bi bi-braces" style="color:var(--blue);"></i>
-        API JSON
-      </div>
-      <div class="card-body">
-        <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">Endpoints disponibles:</p>
-        <div class="d-flex flex-column gap-2">
-          <a href="/api/employees" target="_blank" class="btn-ghost" style="font-size:12px;">
-            <i class="bi bi-box-arrow-up-right"></i> GET /api/employees
-          </a>
-          <a href="/api/projects" target="_blank" class="btn-ghost" style="font-size:12px;">
-            <i class="bi bi-box-arrow-up-right"></i> GET /api/projects
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+
+
 {% endblock %}
