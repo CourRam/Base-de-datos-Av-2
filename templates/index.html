@@ -1,9 +1,8 @@
 {% extends "base.html" %}
-{% block title %}Dashboard — BDA Empresa DB{% endblock %}
+{% block title %}Dashboard{% endblock %}
 {% block page_title %}Dashboard{% endblock %}
 
 {% block content %}
-<!-- Stat cards -->
 <div class="row g-3 mb-4">
   {% set cards = [
     ('employees',   'Empleados',      'people',        '#58a6ff', stats.employees),
@@ -27,7 +26,7 @@
   {% endfor %}
 </div>
 
-<!-- Salary stats -->
+<!-- Sal -->
 <div class="row g-3 mb-4">
   {% if stats.avg_salary is defined %}
   <div class="col-md-4">
@@ -41,14 +40,14 @@
     <div class="stat-card">
       <div class="stat-icon" style="background:rgba(88,166,255,.15);color:#58a6ff;"><i class="bi bi-arrow-up-circle"></i></div>
       <div class="stat-num" style="font-size:22px;">${{ '{:,.0f}'.format(stats.max_salary) }}</div>
-      <div class="stat-label">Salario Máximo</div>
+      <div class="stat-label">Salario Maximo</div>
     </div>
   </div>
   <div class="col-md-4">
     <div class="stat-card">
       <div class="stat-icon" style="background:rgba(248,81,73,.15);color:#f85149;"><i class="bi bi-arrow-down-circle"></i></div>
       <div class="stat-num" style="font-size:22px;">${{ '{:,.0f}'.format(stats.min_salary) }}</div>
-      <div class="stat-label">Salario Mínimo</div>
+      <div class="stat-label">Salario Minimo</div>
     </div>
   </div>
   {% endif %}

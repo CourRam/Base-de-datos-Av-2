@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Dependientes — BDA{% endblock %}
+{% block title %}Dependientes{% endblock %}
 {% block page_title %}Dependientes{% endblock %}
 {% block topbar_actions %}
 <a href="{{ url_for('dependent_new') }}" class="btn-accent"><i class="bi bi-plus-lg"></i> Nuevo Dependiente</a>
@@ -8,8 +8,7 @@
 <div class="card-db">
   <div class="card-header">
     <i class="bi bi-person-hearts" style="color:var(--red);"></i>
-    DEPENDENT
-    <span class="badge-count">{{ dependents|length }}</span>
+    DEPENDIENTES
   </div>
   <div style="overflow-x:auto;">
     <table class="table-db">

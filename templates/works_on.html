@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Asignaciones — BDA{% endblock %}
-{% block page_title %}Asignaciones (WORKS_ON){% endblock %}
+{% block title %}Asignaciones{% endblock %}
+{% block page_title %}Asignaciones{% endblock %}
 {% block topbar_actions %}
 <a href="{{ url_for('works_on_new') }}" class="btn-accent"><i class="bi bi-plus-lg"></i> Nueva Asignación</a>
 {% endblock %}
@@ -8,8 +8,7 @@
 <div class="card-db">
   <div class="card-header">
     <i class="bi bi-diagram-3" style="color:#a371f7;"></i>
-    WORKS_ON
-    <span class="badge-count">{{ records|length }}</span>
+    ASIGNACIONES
   </div>
   <div style="overflow-x:auto;">
     <table class="table-db">

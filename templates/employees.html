@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Empleados — BDA{% endblock %}
+{% block title %}Empleados{% endblock %}
 {% block page_title %}Empleados{% endblock %}
 
 {% block topbar_actions %}
@@ -13,7 +13,6 @@
   <div class="card-header" style="gap:12px;">
     <i class="bi bi-people" style="color:var(--blue);"></i>
     EMPLOYEE
-    <span class="badge-count">{{ employees|length }}</span>
     <form method="get" class="ms-auto d-flex gap-2" style="margin:0;">
       <div class="search-wrap">
         <i class="bi bi-search"></i>

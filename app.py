@@ -306,7 +306,15 @@ def dependent_delete(id):
     flash("Dependiente eliminado.", "warning")
     return redirect(url_for("dependents"))
 
+@app.route("/api/employees")
+def api_employees():
+    emps = list(employees_col.find({}, {"_id":0}))
+    return jsonify(emps)
 
+@app.route("/api/projects")
+def api_projects():
+    projs = list(projects_col.find({}, {"_id":0}))
+    return jsonify(projs)
 
 
 if __name__ == "__main__":
